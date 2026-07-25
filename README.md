@@ -14,39 +14,6 @@ The automation workflow then processes the resume, evaluates the candidate using
 
 ---
 
-## React Frontend
-
-The React frontend provides the candidate-facing application interface.
-
-Candidates can:
-
-- View the recruitment application page
-- Enter their application details
-- Upload their resume
-- Submit their application
-
-### Application Flow
-
-**Hiring Page → Application Form → Application Submission**
-
-<div align="center">
-
-<img src="./Front" alt="System Workflow" width="100%">
-
-
-<h1>↓</h1>
-<img src="./Form" alt="System Workflow" width="100%">
-
-
-<h1>↓</h1>
-<img src="./Submission" alt="System Workflow" width="100%">
-
-</div>
-
-<!-- Add the real frontend screenshots here -->
-
----
-
 ## System Architecture
 
 ```text
@@ -84,6 +51,44 @@ Resume Validation
                  ↓
              Not Approved Sheet
 ```
+## React Frontend
+
+The React frontend provides the candidate-facing application interface.
+
+Candidates can:
+
+- View the recruitment application page
+- Enter their application details
+- Upload their resume
+- Submit their application
+
+### Application Flow
+
+**Hiring Page → Application Form → Application Submission**
+
+<div align="center">
+
+<img src="./Front" alt="System Workflow" width="100%">
+
+<br><br>
+
+<h1>⏬</h1>
+
+<br><br>
+
+<img src="./Form" alt="System Workflow" width="100%">
+
+<br><br>
+
+<h1>⏬</h1>
+
+<br><br>
+
+<img src="./Submission" alt="System Workflow" width="100%">
+
+</div>
+
+<!-- Add the real frontend screenshots here -->
 
 ---
 
