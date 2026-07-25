@@ -1,5 +1,3 @@
-# AI Resume Screening & Recruitment Automation System
-
 An AI-powered recruitment automation system that processes candidate applications, evaluates resumes using AI, validates candidate data, tracks approval decisions, stores generated documents, and automates company notifications and daily reporting.
 
 The system connects a React frontend, Express.js backend, n8n workflow automation, AI-based resume evaluation, JavaScript data processing, Google Sheets, Google Drive, Gmail, and Slack.
@@ -30,6 +28,20 @@ Candidates can:
 ### Application Flow
 
 **Hiring Page → Application Form → Application Submission**
+
+<div align="center">
+
+<img src="./Front" alt="System Workflow" width="100%">
+
+
+<h1>↓</h1>
+<img src="./Form" alt="System Workflow" width="100%">
+
+
+<h1>↓</h1>
+<img src="./Submission" alt="System Workflow" width="100%">
+
+</div>
 
 <!-- Add the real frontend screenshots here -->
 
