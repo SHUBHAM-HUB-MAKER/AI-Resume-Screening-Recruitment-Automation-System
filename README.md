@@ -1,202 +1,121 @@
-An AI-powered recruitment automation system that processes candidate applications, evaluates resumes using AI, validates candidate data, tracks approval decisions, stores generated documents, and automates company notifications and daily reporting.
+# 🤖 AI Resume Screening & Recruitment Automation System
 
-The system connects a React frontend, Express.js backend, n8n workflow automation, AI-based resume evaluation, JavaScript data processing, Google Sheets, Google Drive, Gmail, and Slack.
+> An AI-powered recruitment automation system that processes candidate applications, evaluates resumes, validates candidate data, tracks approval decisions, stores documents, and automates company notifications and daily reporting.
 
----
-
-## Overview
-
-Candidates submit their application details and resume through a React frontend.
-
-The application is sent to an Express.js backend, which forwards the data to an n8n webhook.
-
-The automation workflow then processes the resume, evaluates the candidate using an AI Agent, structures the AI output using JavaScript, validates the application, stores the candidate record according to the result, and handles approval notifications and reporting.
+Built with **React, Express.js, n8n, AI Agents, JavaScript, Google Sheets, Google Drive, Gmail, and Slack.**
 
 ---
 
-## System Architecture
+## ✨ Overview
 
-```text
-React Frontend
-      ↓
-Express.js Backend
-      ↓
-n8n Webhook
-      ↓
-Resume Processing
-      ↓
-AI Agent
-      ↓
-JavaScript Data Processing
-      ↓
-Resume Validation
-      │
-      ├── Invalid → Invalid Google Sheets Tab → Workflow Stops
-      │
-      └── Valid
-             ↓
-        PDF Generation
-             ↓
-        Google Drive
-             ↓
-      Approval Decision
-          │
-          ├── Approved
-          │      ↓
-          │  Approved Sheet
-          │      ↓
-          │  Gmail + Slack
-          │
-          └── Not Approved
-                 ↓
-             Not Approved Sheet
+This project automates the recruitment screening process from candidate application submission to AI-based evaluation, validation, approval tracking, document storage, and company notifications.
+
+The system is divided into two independent automation workflows:
+
+- 🔄 **Workflow 1:** Candidate Screening & Recruitment Automation
+- 📊 **Workflow 2:** Daily Approved Candidate Summary
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart LR
+    A[React Frontend] --> B[Express.js Backend]
+    B --> C[n8n Webhook]
+
+    C --> D[Resume Processing]
+    D --> E[AI Agent]
+    E --> F[JavaScript Data Processing]
+    F --> G{Resume Valid?}
+
+    G -->|Invalid| H[Invalid Google Sheets Tab]
+    G -->|Valid| I[PDF Generation]
+
+    I --> J[Google Drive]
+    J --> K{Approval Decision}
+
+    K -->|Approved| L[Approved Google Sheets Tab]
+    K -->|Not Approved| M[Not Approved Google Sheets Tab]
+
+    L --> N[Gmail Notification]
+    L --> O[Slack Notification]
 ```
-## React Frontend
 
-The React frontend provides the candidate-facing application interface.
+---
 
-Candidates can:
+# 🔄 Workflow 1: Candidate Screening & Recruitment Automation
 
-- View the recruitment application page
-- Enter their application details
-- Upload their resume
-- Submit their application
-
-### Application Flow
-
-**Hiring Page → Application Form → Application Submission**
+Workflow 1 processes a candidate application from initial submission through resume evaluation, validation, document storage, approval processing, and company notifications.
 
 <div align="center">
 
-<img src="./Front" alt="System Workflow" width="100%">
-
-<br><br>
-
-<h1>⏬</h1>
-
-<br><br>
-
-<img src="./Form" alt="System Workflow" width="100%">
-
-<br><br>
-
-<h1>⏬</h1>
-
-<br><br>
-
-<img src="./Submission" alt="System Workflow" width="100%">
+<img src="./WORKFLOW1" alt="WORKFLOW1 - Candidate Screening and Recruitment Automation" width="100%">
 
 </div>
 
-<!-- Add the real frontend screenshots here -->
-
----
-
-## Workflow
-
-### 1. Candidate Application
-
-Candidates submit their application details and resume through the React frontend.
-
-The application data is sent to the Express.js backend.
+## 📥 Application Flow
 
 ```text
 Candidate
     ↓
 React Frontend
     ↓
-Application Details + Resume
-```
-
----
-
-### 2. Express.js Backend
-
-The Express.js backend receives the application data from the React frontend and forwards it to the n8n webhook.
-
-```text
-React Frontend
-      ↓
 Express.js Backend
-      ↓
+    ↓
 n8n Webhook
 ```
 
----
+## 🧠 Resume Processing & AI Evaluation
 
-### 3. Resume Processing
+The submitted resume is processed inside the n8n workflow and prepared for AI-based evaluation.
 
-The n8n workflow receives the candidate application and processes the submitted resume.
+The AI Agent evaluates candidate information and resume data based on configured screening criteria, including:
 
-The resume content is extracted and prepared for AI-based evaluation.
-
----
-
-### 4. AI Resume Evaluation
-
-The AI Agent evaluates the candidate information and resume according to the screening criteria configured for the workflow.
-
-The AI output may include:
-
-- Candidate information
 - Qualification
-- Subject knowledge
-- Relevant experience
-- Teaching or training experience
+- Subject Knowledge
+- Relevant Experience
+- Teaching or Training Experience
 - Communication
-- Resume quality
-- Form and resume consistency
+- Resume Quality
+- Form & Resume Consistency
 - Skills
-- Candidate score
-- Final decision
-- Reason for decision
+- Candidate Score
+- Final Decision
+- Reason for Decision
+
+## ⚙️ JavaScript Data Processing
+
+The AI Agent response is processed using JavaScript to:
+
+- Structure candidate information
+- Normalize AI-generated output
+- Prepare consistent candidate data
+- Process screening results
+- Determine the next workflow path
 
 ---
 
-### 5. JavaScript Data Processing
+# ✅ Resume Validation
 
-The AI Agent response is processed using JavaScript.
+The workflow checks whether the submitted resume is valid before continuing the recruitment process.
 
-The JavaScript processing step:
-
-- Processes the AI response
-- Structures candidate information
-- Normalizes the output
-- Prepares consistent data for later workflow steps
-- Determines the next processing path
-
----
-
-## Resume Validation
-
-After the AI output is processed, the workflow determines whether the submitted resume is valid.
-
-### Invalid Resume
-
-If the resume is invalid:
-
-- Candidate data is stored in the `Invalid` tab of Google Sheets.
-- The workflow stops for that candidate.
+### ❌ Invalid Resume
 
 ```text
 Invalid Resume
       ↓
-Google Sheets
-      ↓
-Invalid Tab
+Invalid Google Sheets Tab
       ↓
 Workflow Stops
 ```
 
-### Valid Resume
+If the resume is invalid:
 
-If the resume is valid:
+- Candidate data is stored in the **Invalid Google Sheets** tab.
+- The workflow stops for that candidate.
 
-- The candidate continues through the workflow.
-- A PDF document is generated.
-- The PDF is stored in Google Drive.
-- The Google Drive link is stored with the candidate record.
-- The candidate continues to the approval decision stage.
+### ✅ Valid Resume
 
 ```text
 Valid Resume
@@ -210,20 +129,18 @@ Resume Drive Link
 Approval Decision
 ```
 
+For valid resumes:
+
+1. A PDF document is generated.
+2. The generated document is stored in Google Drive.
+3. The Google Drive link is stored with the candidate record.
+4. The candidate continues to the approval decision stage.
+
 ---
 
-## Candidate Approval Processing
+# 🎯 Approval Processing
 
-After a valid candidate's resume PDF is stored, the candidate is processed according to the approval decision.
-
-### Approved Candidate
-
-For approved candidates:
-
-- Candidate information is stored in the `Approved` tab of Google Sheets.
-- The Google Drive resume link is stored with the candidate record.
-- An email is sent to the client/company.
-- A Slack notification is sent to the company.
+## ✅ Approved Candidate
 
 ```text
 Approved Candidate
@@ -232,17 +149,19 @@ Approved Google Sheets Tab
         ↓
 Google Drive Resume Link
         ↓
-Email Notification
+Gmail Notification
         ↓
 Slack Notification
 ```
 
-### Not Approved Candidate
+For approved candidates:
 
-For candidates who are not approved:
-
-- Candidate information is stored in the `Not Approved` tab of Google Sheets.
+- Candidate information is stored in the **Approved Google Sheets** tab.
 - The Google Drive resume link is stored with the candidate record.
+- Candidate information is sent to the client/company by email.
+- The company receives a Slack notification.
+
+## ❌ Not Approved Candidate
 
 ```text
 Not Approved Candidate
@@ -252,34 +171,24 @@ Not Approved Google Sheets Tab
 Google Drive Resume Link
 ```
 
----
+For candidates who are not approved:
 
-## Email Notification
-
-When a candidate is approved, the workflow sends the candidate application information to the client/company by email.
-
-This removes the need for the information to be manually forwarded after the approval decision.
+- Candidate information is stored in the **Not Approved Google Sheets** tab.
+- The Google Drive resume link is stored with the candidate record.
 
 ---
 
-## Slack Notification
+# 📊 Workflow 2: Daily Approved Candidate Summary
 
-After an approved application is processed, the company receives a Slack notification about the new candidate application.
+Workflow 2 runs independently from the main candidate screening workflow.
 
-This provides an additional internal notification channel for the recruitment workflow.
+It processes approved candidates from the previous day and sends a summary to the company by email.
 
----
+<div align="center">
 
-## Daily Approved Candidate Summary
+<img src="./WORKFLOW2" alt="WORKFLOW2 - Candidate Screening and Recruitment Automation" width="100%">
 
-A separate scheduled workflow runs daily to process approved candidates from the previous day.
-
-The workflow:
-
-1. Checks the current time.
-2. Identifies approved candidates from the previous day.
-3. Generates a summary.
-4. Sends the summary to the company by email.
+</div>
 
 ```text
 Scheduled Workflow
@@ -290,93 +199,123 @@ Previous Day's Approved Candidates
         ↓
 Summary Generation
         ↓
-Email Sent to Company
+Company Email
 ```
 
----
+The workflow:
 
-## Technology Stack
-
-### Frontend
-
-- React.js
-- JavaScript
-- HTML
-- CSS
-
-### Backend
-
-- Node.js
-- Express.js
-- REST APIs
-
-### Automation
-
-- n8n
-- Webhooks
-- JavaScript Code Nodes
-- Workflow Automation
-
-### AI
-
-- AI Agents
-- Gemini AI
-- LLM Integration
-- Prompt Engineering
-
-### Google Services
-
-- Google Sheets
-- Google Drive
-- Gmail
-- Google Cloud Console
-
-### Communication
-
-- Slack
-
-### Tools
-
-- PDF Automation
-- Postman
-- Git
-- GitHub
+- Runs on a scheduled basis.
+- Checks whether the configured reporting time has been reached.
+- Retrieves approved candidates from the previous day.
+- Generates a summary.
+- Sends the summary to the company by email.
 
 ---
 
-## Key Features
+# 🖥️ React Frontend
 
-- React-based candidate application interface
-- Resume upload and application data collection
-- Express.js backend integration
-- n8n webhook integration
-- Automated resume processing
-- AI-based resume evaluation
-- JavaScript-based AI output processing
-- Resume validation
-- Invalid resume handling
-- Automated PDF generation
-- Google Drive document storage
-- Google Sheets candidate tracking
-- Approved candidate tracking
-- Not Approved candidate tracking
-- Resume Drive link storage
-- Automated email notifications
-- Slack notifications
-- Daily approved-candidate summary emails
+The React frontend provides the candidate-facing application interface.
+
+Candidates can:
+
+- View the recruitment application page.
+- Enter application details.
+- Upload their resume.
+- Submit their application.
+
+## 📸 Application Interface
+
+<div align="center">
+
+<img src="./Front" alt="Hiring Page" width="100%">
+
+<br>
+
+<h3>⬇️</h3>
+
+<br>
+
+<img src="./Form" alt="Application Form" width="100%">
+
+<br>
+
+<h3>⬇️</h3>
+
+<br>
+
+<img src="./Submission" alt="Application Submission" width="100%">
+
+</div>
 
 ---
 
-## Project Objective
+# 🧰 Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React.js, JavaScript, HTML, CSS |
+| **Backend** | Node.js, Express.js, REST APIs |
+| **Automation** | n8n, Webhooks, JavaScript Code Nodes |
+| **AI** | AI Agents, Gemini AI, LLM Integration |
+| **Data & Storage** | Google Sheets, Google Drive |
+| **Communication** | Gmail, Slack |
+| **Tools** | Postman, Git, GitHub, PDF Automation |
+
+---
+
+# 🚀 Key Features
+
+- ✅ React-based candidate application interface
+- 📄 Resume upload and application data collection
+- 🔌 Express.js backend integration
+- 🌐 n8n webhook integration
+- ⚙️ Automated resume processing
+- 🤖 AI-based resume evaluation
+- 🧠 JavaScript-based AI output processing
+- 🔍 Resume validation and routing
+- ❌ Invalid resume handling
+- 📑 Automated PDF generation
+- ☁️ Google Drive document storage
+- 📊 Google Sheets candidate tracking
+- ✅ Approved candidate tracking
+- ❌ Not Approved candidate tracking
+- 🔗 Resume Drive link storage
+- 📧 Automated Gmail notifications
+- 💬 Slack notifications
+- 📅 Daily approved-candidate summary emails
+
+---
+
+# 🎯 Project Objective
 
 The objective of this project is to automate repetitive recruitment workflow tasks using AI and workflow automation.
 
-The system connects candidate application submission with AI-based resume evaluation, validation, document storage, candidate tracking, approval processing, company notifications, and daily reporting.
+The system connects:
+
+```text
+Candidate Application
+        ↓
+AI Resume Evaluation
+        ↓
+Resume Validation
+        ↓
+Document Storage
+        ↓
+Candidate Tracking
+        ↓
+Approval Processing
+        ↓
+Company Notifications
+        ↓
+Daily Reporting
+```
+
+This project demonstrates how **AI Agents, workflow automation, APIs, backend systems, and cloud tools** can be combined to build a complete recruitment automation system.
 
 ---
 
-## Author
+# 👤 Author
 
-**Shubham Gupta**
+## Shubham Gupta
 
 **AI Automation Engineer | AI Agents | n8n | Full-Stack Development**
