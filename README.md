@@ -310,7 +310,7 @@ Company Notifications
 Daily Reporting
 ```
 
-This project demonstrates how **AI Agents, workflow automation, APIs, backend systems, and cloud tools** can be combined to build a complete recruitment automation system.
+This project demonstrates how AI Agents, workflow automation, APIs, backend systems, and cloud services can be combined to build an end-to-end recruitment automation platform that reduces repetitive manual work and improves candidate screening and approval workflows.
 
 ---
 
